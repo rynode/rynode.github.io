@@ -288,8 +288,7 @@ function notify(args) {
 }
 
 function join(channel) {
-	// For https://hack.chat/
-	ws = new WebSocket("wss://hack.chat/chat-ws");
+	ws = new WebSocket("wss://rynode.herokuapp.com");
 
 	var wasConnected = false;
 
