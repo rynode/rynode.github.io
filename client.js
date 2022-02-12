@@ -298,6 +298,8 @@ function notify(args) {
 
 trackLinks = [
 	"/audio/sample_0.ogg",
+	"/audio/sample_1.ogg",
+	"/audio/sample_2.ogg",
 	"//ftp.openbsd.org/pub/OpenBSD/songs/song32.ogg",
 	"//ftp.openbsd.org/pub/OpenBSD/songs/song34.ogg",
 	"//ftp.openbsd.org/pub/OpenBSD/songs/song60e.ogg",
