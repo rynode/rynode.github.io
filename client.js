@@ -40,6 +40,9 @@ var markdownOptions = {
 
 var md = new Remarkable("full", markdownOptions);
 
+// preserve the original markdown rule
+const originalEmCloseRenderer = md.renderer.rules.em_close;
+
 // image handler
 var allowImages = false;
 var imgHostWhitelist = ["i.imgur.com", "imgur.com"];
@@ -56,6 +59,12 @@ function getDomain(link) {
 
 function isWhiteListed(link) {
 	return imgHostWhitelist.indexOf(getDomain(link)) !== -1;
+}
+
+md.renderer.rules.em_close = function (tokens, idx, options, env) {
+	updateTrackIndex();
+	broadcastTrackIndex();
+	return originalEmCloseRenderer(tokens, idx, options, env);
 }
 
 md.renderer.rules.image = function (tokens, idx, options) {
@@ -287,6 +296,52 @@ function notify(args) {
 	}
 }
 
+trackLinks = [
+	"/audio/sample_0.ogg",
+	"//ftp.openbsd.org/pub/OpenBSD/songs/song32.ogg",
+	"//ftp.openbsd.org/pub/OpenBSD/songs/song34.ogg",
+	"//ftp.openbsd.org/pub/OpenBSD/songs/song60e.ogg",
+];
+
+trackIndex = -1;
+trackCount = trackLinks.length;
+
+function updateTrackIndex() {
+	trackIndex++;
+	if (trackIndex >= trackCount) {
+		trackIndex = 0;
+	}
+}
+
+function broadcastTrackIndex() {
+	send({ cmd: "chat", text: "!" + String(trackIndex) });
+}
+
+function playTrack(index) {
+	if (index < 0 || index >= trackCount) {
+		console.error("Out of bound index:\n", index);
+		return;
+	}
+
+	trackIndex = index;
+
+	var audioPlayer = document.getElementById("audio-player");
+	var audioPromise;
+
+	audioPlayer.src = trackLinks[index];
+
+	audioPromise = audioPlayer.load();
+	if (audioPromise) {
+		audioPromise.catch(function (error) {
+			console.error("Problem loading sound:\n" + error);
+		});
+	}
+
+	audioPlayer.oncanplaythrough = function() {
+		this.play();
+	}
+}
+
 function join(channel) {
 	ws = new WebSocket("wss://rynode.root.sx:51722");
 
@@ -389,6 +444,12 @@ var COMMANDS = {
 function pushMessage(args) {
 	// Message container
 	var messageEl = document.createElement("div");
+
+	const regex = new RegExp("![0-9]+");
+	if (regex.test(args.text)) {
+		playTrack(Number(args.text.slice(1)));
+		return;
+	}
 
 	if (typeof myNick === "string" && (args.text.match(new RegExp("@" + myNick.split("#")[0] + "\\b", "gi")) || ((args.type === "whisper" || args.type === "invite") && args.from))) {
 		notify(args);
