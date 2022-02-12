@@ -228,6 +228,14 @@ ul ul, ol ol {
   padding-left: 2em;
 }
 
+button {
+  width: 80%;
+}
+
+audio {
+  width: 100%;
+}
+
 @media only screen and (max-width: 600px) {
   .padded {
     margin-top: 20em;
