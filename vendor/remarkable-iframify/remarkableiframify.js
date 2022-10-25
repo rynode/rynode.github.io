@@ -25,6 +25,10 @@
         'youtube-playlist': {
             openTag: (playlistId) => '<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="https://www.youtube.com/embed/videoseries?list=' + playlistId + '" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no" allow="autoplay; encrypted-media">',
             closeTag: () => '</iframe></div>'
+        },
+        'htmlvideo': {
+            openTag: (videoId) => '<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="https://rynode.root.sx:' + videoId + '" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no" allow="autoplay; encrypted-media">',
+            closeTag: () => '</iframe></div>'
         }
     };
 
@@ -100,6 +104,18 @@
                 return {
                     id: match[1],
                     service: 'wistia'
+                };
+            }
+
+            return null;
+        } else if (/rynode\.root\.sx/.test(str)) {
+            const regex = /(?:rynode\.root\.sx)\:(\d+)(?:\/)?$/;
+            const match = str.match(regex);
+
+            if (match && match[1]) {
+                return {
+                    id: match[1],
+                    service: 'htmlvideo'
                 };
             }
 
