@@ -419,7 +419,6 @@ var COMMANDS = {
 		});
 
 		pushMessage({ nick: "*", text: "Users online: " + nicks.join(", ") });
-		pushMessage({ nick: "*", text: "New beta available at: https://beta.hack.chat/ or https://beta.hack.chat/?" + myChannel });
 	},
 
 	onlineAdd: function (args) {
