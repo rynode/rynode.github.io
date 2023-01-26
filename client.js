@@ -108,7 +108,7 @@ md.renderer.rules.text = function (tokens, idx) {
 md.use(remarkableKatex);
 
 function verifyLink(link) {
-	const iframe = allowVideos ? iframify(link.href) : none;
+	const iframe = allowVideos ? iframify(link.href) : undefined;
 	if (iframe) {
 		$("#streams").innerHTML = "";
 		$("#header").classList.remove("hidden");
@@ -328,21 +328,7 @@ function playTrack(index) {
 
 	trackIndex = index;
 
-	var audioPlayer = document.getElementById("audio-player");
-	var audioPromise;
-
-	audioPlayer.src = trackLinks[index];
-
-	audioPromise = audioPlayer.load();
-	if (audioPromise) {
-		audioPromise.catch(function (error) {
-			console.error("Problem loading sound:\n" + error);
-		});
-	}
-
-	audioPlayer.oncanplaythrough = function() {
-		this.play();
-	}
+	pushAudio({ text: trackLinks[trackIndex] });
 }
 
 function join(channel) {
@@ -410,6 +396,11 @@ var COMMANDS = {
 		pushMessage(args);
 	},
 
+	play: function (args) {
+		args.nick = "^";
+		pushAudio(args);
+	},
+
 	onlineSet: function (args) {
 		var nicks = args.nicks;
 
@@ -442,6 +433,24 @@ var COMMANDS = {
 		}
 	},
 };
+
+function pushAudio(args) {
+	var audioPlayer = document.getElementById("audio-player");
+	var audioPromise;
+
+	audioPlayer.src = args.text;
+
+	audioPromise = audioPlayer.load();
+	if (audioPromise) {
+		audioPromise.catch(function (error) {
+			console.error("Problem loading sound:\n" + error);
+		});
+	}
+
+	audioPlayer.oncanplaythrough = function () {
+		this.play();
+	}
+}
 
 function pushMessage(args) {
 	// Message container
