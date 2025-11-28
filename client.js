@@ -238,10 +238,10 @@ var notifySetting = localStorageGet("notify-sound");
 soundSwitch.addEventListener("change", (event) => {
 	localStorageSet("notify-sound", soundSwitch.checked);
 });
-// Check if localStorage value is set, defaults to OFF
-if (notifySetting === null) {
-	localStorageSet("notify-sound", "false");
-	soundSwitch.checked = false;
+// Check if localStorage value is set, defaults to ON
+if (notifySetting === null || notifySetting === undefined) {
+	localStorageSet("notify-sound", "true");
+	soundSwitch.checked = true;
 }
 // Configure soundSwitch checkbox element
 if (notifySetting === "true" || notifySetting === true) {
@@ -419,7 +419,7 @@ var COMMANDS = {
 		userAdd(nick);
 
 		if ($("#joined-left").checked) {
-			pushMessage({ nick: "*", text: nick + " joined" });
+			pushMessage({ cmd: "onlineAdd", nick: "*", text: nick + " joined" });
 		}
 	},
 
@@ -429,7 +429,7 @@ var COMMANDS = {
 		userRemove(nick);
 
 		if ($("#joined-left").checked) {
-			pushMessage({ nick: "*", text: nick + " left" });
+			pushMessage({ cmd: "onlineRemove", nick: "*", text: nick + " left" });
 		}
 	},
 };
@@ -462,7 +462,7 @@ function pushMessage(args) {
 		return;
 	}
 
-	if (typeof myNick === "string" && (args.text.match(new RegExp("@" + myNick.split("#")[0] + "\\b", "gi")) || ((args.type === "whisper" || args.type === "invite") && args.from))) {
+	if (typeof myNick === "string" && (args.text.match(new RegExp("@" + myNick.split("#")[0] + "\\b", "gi")) || ((args.type === "whisper" || args.type === "invite") && args.from) || args.cmd === "onlineAdd")) {
 		notify(args);
 	}
 
