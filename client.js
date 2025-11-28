@@ -112,6 +112,7 @@ function verifyLink(link) {
 	if (iframe) {
 		$("#streams").innerHTML = "";
 		$("#header").classList.remove("hidden");
+		$("#remove-iframe").classList.remove("hidden");
 		$("#messages").classList.add("padded");
 
 		var streamEl = document.createElement("div");
@@ -730,6 +731,7 @@ $("#clear-messages").onclick = function () {
 $("#remove-iframe").onclick = function () {
 	$("#streams").innerHTML = "";
 	$("#header").classList.add("hidden");
+	$("#remove-iframe").classList.add("hidden");
 	$("#messages").classList.remove("padded");
 };
 
