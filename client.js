@@ -895,7 +895,7 @@ var schemes = [
 
 var highlights = ["agate", "androidstudio", "atom-one-dark", "darcula", "github", "rainbow", "tk-night", "tomorrow", "xcode", "zenburn"];
 
-var currentScheme = "atelier-dune";
+var currentScheme = "pop";
 var currentHighlight = "darcula";
 
 function setScheme(scheme) {
