@@ -26,8 +26,12 @@
             openTag: (playlistId) => '<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="https://www.youtube.com/embed/videoseries?list=' + playlistId + '" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no" allow="autoplay; encrypted-media">',
             closeTag: () => '</iframe></div>'
         },
-        'htmlvideo': {
+        'rynode': {
             openTag: (videoId) => '<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="https://rynode.root.sx:' + videoId + '" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no" allow="autoplay; encrypted-media">',
+            closeTag: () => '</iframe></div>'
+        },
+        'beagle': {
+            openTag: (videoId) => '<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="http://192.168.1.2:' + videoId + '" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no" allow="autoplay; encrypted-media">',
             closeTag: () => '</iframe></div>'
         }
     };
@@ -115,7 +119,19 @@
             if (match && match[1]) {
                 return {
                     id: match[1],
-                    service: 'htmlvideo'
+                    service: 'rynode'
+                };
+            }
+
+            return null;
+        } else if (/192\.168\.1\.2/.test(str)) {
+            const regex = /(?:192\.168\.1\.2)\:(\d+)(?:\/)?$/;
+            const match = str.match(regex);
+
+            if (match && match[1]) {
+                return {
+                    id: match[1],
+                    service: 'beagle'
                 };
             }
 
