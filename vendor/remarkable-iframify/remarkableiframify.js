@@ -33,6 +33,10 @@
         'beagle': {
             openTag: (videoId) => '<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="http://192.168.1.2:' + videoId + '" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no" allow="autoplay; encrypted-media">',
             closeTag: () => '</iframe></div>'
+        },
+        'local': {
+            openTag: (videoId) => '<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="http://localhost:' + videoId + '" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no" allow="autoplay; encrypted-media">',
+            closeTag: () => '</iframe></div>'
         }
     };
 
@@ -132,6 +136,18 @@
                 return {
                     id: match[1],
                     service: 'beagle'
+                };
+            }
+
+            return null;
+        } else if (/localhost/.test(str)) {
+            const regex = /(?:localhost)\:(\d+)(?:\/)?$/;
+            const match = str.match(regex);
+
+            if (match && match[1]) {
+                return {
+                    id: match[1],
+                    service: 'local'
                 };
             }
 
