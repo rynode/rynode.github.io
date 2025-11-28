@@ -27,7 +27,7 @@
             closeTag: () => '</iframe></div>'
         },
         'rynode': {
-            openTag: (videoId) => '<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="https://rynode.root.sx:' + videoId + '" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no" allow="autoplay; encrypted-media">',
+            openTag: (videoId) => '<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="https://rynode.cowher.net:' + videoId + '" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no" allow="autoplay; encrypted-media">',
             closeTag: () => '</iframe></div>'
         },
         'beagle': {
@@ -116,8 +116,8 @@
             }
 
             return null;
-        } else if (/rynode\.root\.sx/.test(str)) {
-            const regex = /(?:rynode\.root\.sx)\:(\d+)(?:\/)?$/;
+        } else if (/rynode\.cowher\.net/.test(str)) {
+            const regex = /(?:rynode\.cowher\.net)\:(\d+)(?:\/)?$/;
             const match = str.match(regex);
 
             if (match && match[1]) {
