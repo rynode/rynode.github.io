@@ -332,7 +332,7 @@ function playTrack(index) {
 }
 
 function join(channel) {
-	ws = new WebSocket("wss://rynode.root.sx:51722");
+	ws = new WebSocket(servers[currentServer]);
 
 	var wasConnected = false;
 
@@ -856,6 +856,11 @@ function userIgnore(nick) {
 	ignoredUsers.push(nick);
 }
 
+var servers = {
+	"beagle": "ws://192.168.1.2:6060",
+	"rynode": "wss://rynode.root.sx:51722",
+};
+
 /* color scheme switcher */
 
 var schemes = [
@@ -895,8 +900,14 @@ var schemes = [
 
 var highlights = ["agate", "androidstudio", "atom-one-dark", "darcula", "github", "rainbow", "tk-night", "tomorrow", "xcode", "zenburn"];
 
+var currentServer = "beagle";
 var currentScheme = "pop";
 var currentHighlight = "darcula";
+
+function setServer(server) {
+	currentServer = server;
+	ws.close();
+}
 
 function setScheme(scheme) {
 	currentScheme = scheme;
@@ -908,6 +919,13 @@ function setHighlight(scheme) {
 	currentHighlight = scheme;
 	$("#highlight-link").href = "vendor/hljs/styles/" + scheme + ".min.css";
 	localStorageSet("highlight", scheme);
+}
+
+for(server in servers) {
+	var option = document.createElement("option");
+	option.textContent = server;
+	option.value = server;
+	$("#server-selector").appendChild(option);
 }
 
 // Add scheme options to dropdown selector
@@ -925,6 +943,9 @@ highlights.forEach(function (scheme) {
 	$("#highlight-selector").appendChild(option);
 });
 
+$("#server-selector").onchange = function (e) {
+	setServer(e.target.value);
+};
 $("#scheme-selector").onchange = function (e) {
 	setScheme(e.target.value);
 };
@@ -942,6 +963,7 @@ if (localStorageGet("highlight")) {
 	setHighlight(localStorageGet("highlight"));
 }
 
+$("#server-selector").value = currentServer;
 $("#scheme-selector").value = currentScheme;
 $("#highlight-selector").value = currentHighlight;
 
