@@ -860,7 +860,7 @@ function userIgnore(nick) {
 
 var servers = {
 	"beagle": "ws://192.168.1.2:6060",
-	"rynode": "wss://rynode.root.sx:51722",
+	"rynode": "wss://rynode.cowher.net:51722",
 };
 
 /* color scheme switcher */
