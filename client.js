@@ -859,7 +859,6 @@ function userIgnore(nick) {
 }
 
 var servers = {
-	"beagle": "ws://192.168.1.2:6060",
 	"rynode": "wss://rynode.cowher.net:51722",
 };
 
@@ -902,7 +901,7 @@ var schemes = [
 
 var highlights = ["agate", "androidstudio", "atom-one-dark", "darcula", "github", "rainbow", "tk-night", "tomorrow", "xcode", "zenburn"];
 
-var currentServer = "beagle";
+var currentServer = "rynode";
 var currentScheme = "pop";
 var currentHighlight = "darcula";
 
