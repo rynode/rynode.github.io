@@ -902,7 +902,7 @@ var schemes = [
 var highlights = ["agate", "androidstudio", "atom-one-dark", "darcula", "github", "rainbow", "tk-night", "tomorrow", "xcode", "zenburn"];
 
 var currentServer = "rynode";
-var currentScheme = "pop";
+var currentScheme = "atelier-dune";
 var currentHighlight = "darcula";
 
 function setServer(server) {
